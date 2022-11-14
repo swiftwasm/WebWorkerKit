@@ -134,9 +134,10 @@ private struct JSObjectKeyedEncodingContainer<Key: CodingKey>: KeyedEncodingCont
 
     func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: Key) -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey
     {
-        let encoder = JSValueEncoderImpl(codingPath: encoder.codingPath)
-        let container = JSObjectKeyedEncodingContainer<NestedKey>(encoder: encoder)
-        encoder.value = .object(ObjectConstructor.new())
+        let nestedEncoder = JSValueEncoderImpl(codingPath: encoder.codingPath)
+        let container = JSObjectKeyedEncodingContainer<NestedKey>(encoder: nestedEncoder)
+        nestedEncoder.value = .object(ObjectConstructor.new())
+        encoder.value[dynamicMember: key.stringValue] = nestedEncoder.value
         return KeyedEncodingContainer(container)
     }
 
