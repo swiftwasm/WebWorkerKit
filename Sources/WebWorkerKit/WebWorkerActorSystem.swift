@@ -111,6 +111,12 @@ final public class WebWorkerActorSystem: DistributedActorSystem, Sendable {
             return actor
         }
 
+        if childWorkers[id] != nil {
+            // We already have a child worker for this ID
+            // We can continue to use it as we did before
+            return nil
+        }
+
         let (scriptPath, isModule) = getScriptDetails(for: Act.self)
 
         let childWorker = try WebWorkerHost(scriptPath: scriptPath, isModule: isModule)
