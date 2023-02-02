@@ -1,6 +1,12 @@
 import JavaScriptKit
 import Distributed
+#if canImport(Darwin)
+import func Darwin.getenv
+#elseif canImport(Glibc)
+import func Glibc.getenv
+#elseif canImport(WASILibc)
 import func WASILibc.getenv
+#endif
 
 enum WebWorkerHostError: Error {
     case unableToLoad(scriptPath: String, isModule: Bool)
