@@ -3,8 +3,8 @@ import Distributed
 import JavaScriptEventLoop
 
 private let rawPostMessageToHost = JSObject.global.postMessage.function!
-private func postMessageToHost(_ message: WebWorkerMessage) {
-    rawPostMessageToHost(message)
+private func postMessageToHost(_ message: WebWorkerMessage, transfer: [JSValue] = []) {
+    rawPostMessageToHost(message, transfer)
 }
 
 final public class WebWorkerActorSystem: DistributedActorSystem, Sendable {
@@ -145,8 +145,8 @@ final public class WebWorkerActorSystem: DistributedActorSystem, Sendable {
         managedWorkers.removeValue(forKey: id)
     }
 
-    func sendReply(_ envelope: ReplyEnvelope) throws {
-        postMessageToHost(.reply(envelope))
+    func sendReply(_ envelope: ReplyEnvelope, transfer: [JSValue] = []) throws {
+        postMessageToHost(.reply(envelope), transfer: transfer)
     }
 
     private var deadLetterQueue = [RemoteCallEnvelope]()

@@ -27,8 +27,8 @@ internal class WebWorkerHost {
             }
 
             if isReady {
-                queuedMessages.forEach { message in
-                    postMessage(message)
+                queuedMessages.forEach { (message, transfer) in
+                    postMessage(message, transfer: transfer)
                 }
             }
         }
@@ -54,12 +54,12 @@ internal class WebWorkerHost {
         self.jsObject = jsObject
     }
 
-    private var queuedMessages = [WebWorkerMessage]()
-    func postMessage(_ message: WebWorkerMessage) {
+    private var queuedMessages = [(message: WebWorkerMessage, transfer: [JSValue])]()
+    func postMessage(_ message: WebWorkerMessage, transfer: [JSValue] = []) {
         if isReady {
-            _ = jsObject.postMessage!(message)
+            _ = jsObject.postMessage!(message, transfer)
         } else {
-            queuedMessages.append(message)
+            queuedMessages.append((message, transfer))
         }
     }
 }
