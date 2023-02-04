@@ -3,10 +3,10 @@ import Distributed
 
 public class WebWorkerCallDecoder: DistributedTargetInvocationDecoder {
     enum Error: Swift.Error {
-        case notEnoughArguments(expected: Codable.Type)
+        case notEnoughArguments(expected: WebWorkerActorSystem.SerializationRequirement.Type)
     }
 
-    public typealias SerializationRequirement = Codable
+    public typealias SerializationRequirement = WebWorkerActorSystem.SerializationRequirement
 
     let decoder: JSValueDecoder
     let envelope: RemoteCallEnvelope
@@ -24,7 +24,7 @@ public class WebWorkerCallDecoder: DistributedTargetInvocationDecoder {
         envelope.genericSubs.compactMap(_typeByName)
     }
 
-    public func decodeNextArgument<Argument: Codable>() throws -> Argument {
+    public func decodeNextArgument<Argument: SerializationRequirement>() throws -> Argument {
         guard let data = argumentsIterator.next() else {
             throw Error.notEnoughArguments(expected: Argument.self)
         }

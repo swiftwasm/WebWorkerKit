@@ -2,7 +2,7 @@ import JavaScriptKit
 import Distributed
 
 public struct WebWorkerResultHandler: DistributedTargetInvocationResultHandler {
-    public typealias SerializationRequirement = Codable
+    public typealias SerializationRequirement = WebWorkerActorSystem.SerializationRequirement
 
     let callID: WebWorkerActorSystem.CallID
     let system: WebWorkerActorSystem

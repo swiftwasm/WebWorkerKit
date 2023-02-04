@@ -12,7 +12,7 @@ extension WebWorkerActorSystem {
     where Act: DistributedActor,
           Act.ID == ActorID,
           Err: Error,
-          Res: Codable
+          Res: SerializationRequirement
     {
         guard let replyData = try await withCallIDContinuation(recipient: actor, body: { callID in
             self.sendRemoteCall(to: actor, target: target, invocation: invocation, callID: callID)

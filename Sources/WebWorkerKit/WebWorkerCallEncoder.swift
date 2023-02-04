@@ -2,7 +2,7 @@ import JavaScriptKit
 import Distributed
 
 public class WebWorkerCallEncoder: DistributedTargetInvocationEncoder, @unchecked Sendable {
-    public typealias SerializationRequirement = Codable
+    public typealias SerializationRequirement = WebWorkerActorSystem.SerializationRequirement
 
     var genericSubs: [String] = []
     var argumentData: [JSValue] = []
