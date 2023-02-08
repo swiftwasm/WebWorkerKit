@@ -75,7 +75,7 @@ extension WebWorkerActorSystem {
                 fatalError("Invalid target")
             }
 
-            childWorker.postMessage(.remoteCall(callEnvelope))
+            childWorker.postMessage(.remoteCall(callEnvelope), transfer: invocation.transfer)
         }
     }
 }

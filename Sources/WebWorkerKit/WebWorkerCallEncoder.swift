@@ -6,6 +6,7 @@ public class WebWorkerCallEncoder: DistributedTargetInvocationEncoder, @unchecke
 
     var genericSubs: [String] = []
     var argumentData: [JSValue] = []
+    var transfer: [JSValue] = []
 
     public func recordGenericSubstitution<T>(_ type: T.Type) throws {
         if let name = _mangledTypeName(T.self) {
@@ -15,6 +16,9 @@ public class WebWorkerCallEncoder: DistributedTargetInvocationEncoder, @unchecke
 
     public func recordArgument<Value: SerializationRequirement>(_ argument: RemoteCallArgument<Value>) throws {
         let jsValue = try JSValueEncoder().encode(argument.value)
+        if let transferable = argument.value as? WebWorkerTransferable {
+            transferable.webWorkerTransfer(transfer: &self.transfer)
+        }
         self.argumentData.append(jsValue)
     }
 
