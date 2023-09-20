@@ -66,12 +66,13 @@ enum WebWorkerMessage: ConvertibleToJSValue {
         let encoder = JSValueEncoder()
         switch self {
         case .remoteCall(let callEnvelope):
+            let recipient = try? encoder.encode(callEnvelope.recipient)
             let callEnvelope = [
                 "callID": callEnvelope.callID,
                 "genericSubs": callEnvelope.genericSubs,
                 "invocationTarget": callEnvelope.invocationTarget,
                 "args": callEnvelope.args,
-                "recipient": try? encoder.encode(callEnvelope.recipient)
+                "recipient": recipient
             ].jsValue
 
             return ["remoteCall", callEnvelope].jsValue
@@ -80,9 +81,10 @@ enum WebWorkerMessage: ConvertibleToJSValue {
             return ["processReady"].jsValue
 
         case .reply(let payload):
+            let sender = try? encoder.encode(payload.sender)
             let replyEnvelope = [
                 "callID": payload.callID,
-                "sender": try? encoder.encode(payload.sender),
+                "sender": sender,
                 "value": payload.value
             ].jsValue
 
