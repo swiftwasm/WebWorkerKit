@@ -14,13 +14,13 @@ public struct JSValueEncoder {
         case let value as JSValue:
             return value
         case let value as [Double]:
-            return JSTypedArray(value).jsValue
+            return JSTypedArray<Double>(value).jsValue
         case let value as [Float]:
-            return JSTypedArray(value).jsValue
+            return JSTypedArray<Float>(value).jsValue
         case let value as [Int]:
-            return JSTypedArray(value).jsValue
+            return JSTypedArray<Int>(value).jsValue
         case let value as [UInt]:
-            return JSTypedArray(value).jsValue
+            return JSTypedArray<UInt>(value).jsValue
         case let value as ConvertibleToJSValue:
             return value.jsValue
         default: break
