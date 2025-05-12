@@ -1,7 +1,7 @@
 import JavaScriptKit
 import Distributed
 
-public class WebWorkerCallDecoder: DistributedTargetInvocationDecoder {
+final public class WebWorkerCallDecoder: DistributedTargetInvocationDecoder {
     enum Error: Swift.Error {
         case notEnoughArguments(expected: Codable.Type)
     }
